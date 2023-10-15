@@ -1,0 +1,6 @@
+/* css loader 解析 */
+@import 'a.css';
+
+body {
+  background-color: paleturquoise;
+}

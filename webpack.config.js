@@ -20,4 +20,17 @@ module.exports = {
       hash: true,
     })
   ],
+  module: {
+    rules: [
+      { test: /\.css$/, use: [
+        'style-loader', // 插入到 html 文件的 head 标签中
+        {
+          loader: 'css-loader', // 解析 css 文件
+          options: {
+            insertAt: 'top'
+          }, // 这种写法可以传递参数
+        }
+      ]}
+    ]
+  }
 }
