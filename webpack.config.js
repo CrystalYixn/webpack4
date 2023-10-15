@@ -1,9 +1,10 @@
 const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   entry: './src/index.js',
   mode: 'development',
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.[hash:8].js',
     // path.resolve 将一个路径转换为绝对路径, __dirname 当前执行文件的绝对路径
     path: path.resolve(__dirname, 'dist'),
   },
@@ -12,4 +13,11 @@ module.exports = {
     progress: true,
     contentBase: './build',
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+      filename: 'index.html',
+      hash: true,
+    })
+  ],
 }
