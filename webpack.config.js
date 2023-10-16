@@ -29,6 +29,7 @@ module.exports = {
       { test: /\.css$/, use: [
         MiniCssExtractPlugin.loader, // 创建 link 标签并插入
         'css-loader', // 解析 css 文件
+        'postcss-loader',
       ]}
     ]
   }
