@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 module.exports = {
   entry: './src/index.js',
   mode: 'development',
@@ -18,18 +19,16 @@ module.exports = {
       template: './src/index.html',
       filename: 'index.html',
       hash: true,
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'main.css'
     })
   ],
   module: {
     rules: [
       { test: /\.css$/, use: [
-        'style-loader', // 插入到 html 文件的 head 标签中
-        {
-          loader: 'css-loader', // 解析 css 文件
-          options: {
-            insertAt: 'top'
-          }, // 这种写法可以传递参数
-        }
+        MiniCssExtractPlugin.loader, // 创建 link 标签并插入
+        'css-loader', // 解析 css 文件
       ]}
     ]
   }
