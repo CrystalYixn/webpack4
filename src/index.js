@@ -1,3 +1,6 @@
+import $ from 'jquery'
+// 写法 2, 让模块暴露在全局中导入
+// import $ from 'expose-loader?$!jquery'
 console.log(__dirname)
 // require('./index.css')
 require('@babel/polyfill')
@@ -8,6 +11,5 @@ function * fn1() {
 class Person {
   name = 'whh'
 }
-console.log(new Person().name)
-console.log(fn1().next())
-console.log('foobar'.includes('foo'))
+console.log($)
+console.log(window.$)

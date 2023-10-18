@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const webpack = require('webpack')
 module.exports = {
   entry: './src/index.js',
   mode: 'development',
@@ -22,8 +23,15 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: 'main.css'
-    })
+    }),
+    // new webpack.ProvidePlugin({
+    //   // 写法 3, 在每个模块中注入 $, 不注入到全局
+    //   $: 'jquery'
+    // }),
   ],
+  externals: {
+    jquery: "$" // 防止 import 此模块时进行打包
+  },
   module: {
     rules: [
       { test: /\.css$/, use: [
@@ -33,16 +41,23 @@ module.exports = {
       ]}
     ],
     rules: [
-      {
-        test: /\.js$/,
-        use: {
-          loader: 'eslint-loader',
-          options: {
-            enforce: "pre", // webpack 默认倒序执行, pre 强制最先执行
-          },
-        },
-        exclude: /mode_modules/,
-      },
+      // {
+      //   test: /\.js$/,
+      //   use: {
+      //     loader: 'eslint-loader',
+      //     options: {
+      //       enforce: "pre", // webpack 默认倒序执行, pre 强制最先执行
+      //     },
+      //   },
+      //   exclude: /mode_modules/,
+      // },
+      // loader 分类:pre 前置, normal, post 后置, 内联
+      // 写法 1, 全局安装模块
+      // {
+      //   // 引用 jquery 时访问全局环境
+      //   test: require.resolve('jquery'),
+      //   use: 'expose-loader?$',
+      // },
       {
         test: /\.js$/, use: {
           loader: 'babel-loader',
