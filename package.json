@@ -27,6 +27,7 @@
     "not ie <= 8"
   ],
   "dependencies": {
+    "@babel/polyfill": "7.2.5",
     "mini-css-extract-plugin": "0.5.0"
   }
 }
