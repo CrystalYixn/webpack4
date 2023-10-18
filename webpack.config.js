@@ -34,6 +34,16 @@ module.exports = {
     ],
     rules: [
       {
+        test: /\.js$/,
+        use: {
+          loader: 'eslint-loader',
+          options: {
+            enforce: "pre", // webpack 默认倒序执行, pre 强制最先执行
+          },
+        },
+        exclude: /mode_modules/,
+      },
+      {
         test: /\.js$/, use: {
           loader: 'babel-loader',
           options: {
