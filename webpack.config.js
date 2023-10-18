@@ -34,13 +34,6 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.css$/, use: [
-        MiniCssExtractPlugin.loader, // 创建 link 标签并插入
-        'css-loader', // 解析 css 文件
-        'postcss-loader',
-      ]}
-    ],
-    rules: [
       // {
       //   test: /\.js$/,
       //   use: {
@@ -67,7 +60,15 @@ module.exports = {
           },
         },
         exclude: /mode_modules/
-      }
+      },
+      {
+        test: /\.css$/,
+        use: [
+          MiniCssExtractPlugin.loader, // 创建 link 标签并插入
+          'css-loader', // 解析 css 文件
+          'postcss-loader'
+        ]
+      },
     ],
   }
 }
