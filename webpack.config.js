@@ -31,6 +31,15 @@ module.exports = {
         'css-loader', // 解析 css 文件
         'postcss-loader',
       ]}
-    ]
+    ],
+    rules: [
+      { test: /\.js$/, use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env'],
+          plugins: ['@babel/plugin-proposal-class-properties']
+        }
+      }}
+    ],
   }
 }
