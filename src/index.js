@@ -1,15 +1,7 @@
-import $ from 'jquery'
-// 写法 2, 让模块暴露在全局中导入
-// import $ from 'expose-loader?$!jquery'
-console.log(__dirname)
-require('./index.css')
-require('@babel/polyfill')
+// 通过 import 或者 require 导入的文件才会被打包
+// 返回的结果是一个打包后的图片地址
+import logo from './logo.png'
 
-function * fn1() {
-  yield 1
-}
-class Person {
-  name = 'whh'
-}
-console.log($)
-console.log(window.$)
+const image = new Image()
+image.src = logo
+document.body.appendChild(image)

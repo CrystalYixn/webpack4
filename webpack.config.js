@@ -34,6 +34,14 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: 'file-loader',
+      },
+      {
+        test: /\.html$/,
+        use: 'html-withimg-loader',
+      },
       // {
       //   test: /\.js$/,
       //   use: {
@@ -65,7 +73,7 @@ module.exports = {
         test: /\.css$/,
         use: [
           MiniCssExtractPlugin.loader, // 创建 link 标签并插入
-          'css-loader', // 解析 css 文件
+          'css-loader', // 解析 css 文件, 会将 url() 中的链接替换为 require(xxx)
           'postcss-loader'
         ]
       },
