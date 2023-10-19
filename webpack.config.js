@@ -9,6 +9,8 @@ module.exports = {
     filename: 'bundle.[hash:8].js',
     // path.resolve 将一个路径转换为绝对路径, __dirname 当前执行文件的绝对路径
     path: path.resolve(__dirname, 'dist'),
+    // 在所有路径前追加公共路径, 一般为 CDN
+    // publicPath: 'https://360buyaodian.com/',
   },
   devServer: {
     port: 3000,
@@ -36,7 +38,17 @@ module.exports = {
     rules: [
       {
         test: /\.(png|jpg|gif)$/,
-        use: 'file-loader',
+        use: {
+          loader: 'url-loader',
+          options: {
+            // 小于 200kb 直接被打包为 base64
+            limit: 200 * 1024,
+            // 指定输出路径, 引用处会自动加上路径
+            // outputPath: 'img/',
+            // 单独配置路径
+            // publicPath: 'https://360buyaodian.com/',
+          }
+        }
       },
       {
         test: /\.html$/,
