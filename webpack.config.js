@@ -2,6 +2,8 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpack = require('webpack')
+const ClearWebpackPlugin = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 module.exports = {
   entry: {
     home: './src/index.js',
@@ -21,15 +23,15 @@ module.exports = {
     progress: true,
     contentBase: './build',
   },
-  // 每次保存时自动重新打包
-  watch: true,
-  watchOptions: {
-    // 每秒检查 1000 次
-    poll: 1000,
-    // 输入防抖
-    aggregateTimeout: 500,
-    ignored: /node_modules/
-  },
+  // // 每次保存时自动重新打包
+  // watch: true,
+  // watchOptions: {
+  //   // 每秒检查 1000 次
+  //   poll: 1000,
+  //   // 输入防抖
+  //   aggregateTimeout: 500,
+  //   ignored: /node_modules/
+  // },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
@@ -46,6 +48,14 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'main.css'
     }),
+    // 每次打包前先清空上一次的文件夹
+    new ClearWebpackPlugin('./dist'),
+    // 拷贝静态文件到打包构建文件夹中
+    new CopyWebpackPlugin([
+      { from: './doc', to: './' },
+    ]),
+    // 版权声明, 插入到打包文件的头部
+    new webpack.BannerPlugin('make 2023 by honi'),
     // new webpack.ProvidePlugin({
     //   // 写法 3, 在每个模块中注入 $, 不注入到全局
     //   $: 'jquery'
