@@ -3,10 +3,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpack = require('webpack')
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    home: './src/index.js',
+    other: './src/other.js',
+  },
   mode: 'development',
   output: {
-    filename: 'bundle.[hash:8].js',
+    filename: '[name].[hash:8].js',
     // path.resolve 将一个路径转换为绝对路径, __dirname 当前执行文件的绝对路径
     path: path.resolve(__dirname, 'dist'),
     // 在所有路径前追加公共路径, 一般为 CDN
@@ -22,6 +25,13 @@ module.exports = {
       template: './src/index.html',
       filename: 'index.html',
       hash: true,
+      chunks: ['home'],
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+      filename: 'other.html',
+      hash: true,
+      chunks: ['other'],
     }),
     new MiniCssExtractPlugin({
       filename: 'main.css'
