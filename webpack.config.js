@@ -7,7 +7,7 @@ module.exports = {
     home: './src/index.js',
     other: './src/other.js',
   },
-  mode: 'development',
+  mode: 'production',
   output: {
     filename: '[name].[hash:8].js',
     // path.resolve 将一个路径转换为绝对路径, __dirname 当前执行文件的绝对路径
@@ -15,6 +15,7 @@ module.exports = {
     // 在所有路径前追加公共路径, 一般为 CDN
     // publicPath: 'https://360buyaodian.com/',
   },
+  devtool: 'source-map',
   devServer: {
     port: 3000,
     progress: true,
