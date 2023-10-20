@@ -87,6 +87,13 @@ module.exports = {
     new CopyWebpackPlugin([
       { from: './doc', to: './' },
     ]),
+    // 替换代码
+    new webpack.DefinePlugin({
+      // 会将匹配到的 key 直接替换字符串
+      DEV: '"development"',
+      FLAG: 'true',
+      EXPRESSION: '1+1',
+    }),
     // 版权声明, 插入到打包文件的头部
     new webpack.BannerPlugin('make 2023 by honi'),
     // new webpack.ProvidePlugin({
