@@ -21,6 +21,15 @@ module.exports = {
     progress: true,
     contentBase: './build',
   },
+  // 每次保存时自动重新打包
+  watch: true,
+  watchOptions: {
+    // 每秒检查 1000 次
+    poll: 1000,
+    // 输入防抖
+    aggregateTimeout: 500,
+    ignored: /node_modules/
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',

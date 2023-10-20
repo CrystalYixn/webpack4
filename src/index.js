@@ -4,6 +4,7 @@ class Person {
   }
 }
 new Person().say()
+console.log('你好')
 
 // 通过 import 或者 require 导入的文件才会被打包
 // 返回的结果是一个打包后的图片地址
