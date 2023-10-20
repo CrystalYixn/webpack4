@@ -32,6 +32,25 @@ module.exports = {
   //   aggregateTimeout: 500,
   //   ignored: /node_modules/
   // },
+  // 配置内部服务器
+  devServer: {
+    // 内部的 express 服务器钩子, 可以用来 mock 数据
+    // before(app) {
+    //   app.get('/user', (req, res) => {
+    //     res.json({ name: 'whh' })
+    //   })
+    // },
+    // proxy: {
+    //   // 转发 /api 开头的请求
+    //   '/api': {
+    //     target: 'http://localhost:3000',
+    //     pathRewrite: {
+    //       // 将 api 重写为空, 前端请求 /api/getUser -> 转发后 /getUser
+    //       '/api': ''
+    //     },
+    //   }
+    // },
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
