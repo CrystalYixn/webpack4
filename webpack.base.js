@@ -105,6 +105,8 @@ module.exports = {
     jquery: "$" // 防止 import 此模块时进行打包
   },
   module: {
+    // 不去解析 jquery 中的依赖关系
+    noParse: /jquery/,
     rules: [
       {
         test: /\.(png|jpg|gif)$/,
