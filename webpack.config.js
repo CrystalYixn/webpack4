@@ -7,7 +7,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 module.exports = {
   entry: {
     home: './src/index.js',
-    other: './src/other.js',
+    // other: './src/other.js',
   },
   mode: 'production',
   output: {
@@ -22,6 +22,20 @@ module.exports = {
     port: 3000,
     progress: true,
     contentBase: './build',
+  },
+  resolve: {
+    // 强制只在当前目录下查找依赖包
+    modules: [path.resolve('node_modules')],
+    // 指定第三方包的入口字段, 修改默认导入 import 'bootstrap'
+    mainFields: ['style', 'main'],
+    // 按照顺序依次尝试解析后缀查找文件
+    extensions: ['.js', '.css', '.json', '.vue'],
+    // 指定入口文件的名字, 默认 index.js
+    // mainFiles: [],
+    // alias: {
+    //   // 默认 import 'bootstrap' 导入的是包配置里的 main 字段指向的 js 文件
+    //   bootstrap: 'bootstrap/dist/css/bootstrap.css',
+    // }
   },
   // // 每次保存时自动重新打包
   // watch: true,
