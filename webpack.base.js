@@ -94,6 +94,8 @@ module.exports = {
       FLAG: 'true',
       EXPRESSION: '1+1',
     }),
+    // 忽略指定引用, 不必加载全部语言包, 通过手动引入语言包缩减体积
+    new webpack.IgnorePlugin(/\.\/local/),
     // 版权声明, 插入到打包文件的头部
     new webpack.BannerPlugin('make 2023 by honi'),
     // new webpack.ProvidePlugin({
@@ -151,7 +153,9 @@ module.exports = {
             plugins: ['@babel/plugin-proposal-class-properties']
           },
         },
-        exclude: /mode_modules/
+        exclude: /mode_modules/,
+        // 与 exclude 选其一即可
+        // include: path.resolve('src'),
       },
       {
         test: /\.css$/,
