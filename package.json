@@ -39,6 +39,7 @@
     "@babel/preset-react": "7.0.0",
     "bootstrap": "4.2.1",
     "expose-loader": "0.7.5",
+    "happypack": "5.0.0",
     "jquery": "3.3.1",
     "mini-css-extract-plugin": "0.5.0",
     "moment": "2.23.0",

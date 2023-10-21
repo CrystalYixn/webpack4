@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpack = require('webpack')
 const ClearWebpackPlugin = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const Happypack = require('happypack')
 module.exports = {
   entry: {
     home: './src/index.js',
@@ -97,10 +98,30 @@ module.exports = {
     new webpack.IgnorePlugin(/\.\/local/),
     // 版权声明, 插入到打包文件的头部
     new webpack.BannerPlugin('make 2023 by honi'),
-    // 当导入时, 尝试查找是否有对应的动态链接库, 没有时再打包此依赖
-    new webpack.DllReferencePlugin({
-      manifest: path.resolve(__dirname, 'dist', 'manifest.json'),
+    new Happypack({
+      id: 'js',
+      use: [
+        {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+            plugins: ['@babel/plugin-proposal-class-properties'],
+          },
+        },
+      ]
     }),
+    new Happypack({
+      id: 'css',
+      use: [
+        MiniCssExtractPlugin.loader, // 创建 link 标签并插入
+        'css-loader', // 解析 css 文件, 会将 url() 中的链接替换为 require(xxx)
+        'postcss-loader'
+      ]
+    }),
+    // 当导入时, 尝试查找是否有对应的动态链接库, 没有时再打包此依赖
+    // new webpack.DllReferencePlugin({
+    //   manifest: path.resolve(__dirname, 'dist', 'manifest.json'),
+    // }),
     // new webpack.ProvidePlugin({
     //   // 写法 3, 在每个模块中注入 $, 不注入到全局
     //   $: 'jquery'
@@ -149,24 +170,14 @@ module.exports = {
       //   use: 'expose-loader?$',
       // },
       {
-        test: /\.js$/, use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
-            plugins: ['@babel/plugin-proposal-class-properties'],
-          },
-        },
+        test: /\.js$/, use: 'Happypack/loader?id=js',
         exclude: /mode_modules/,
         // 与 exclude 选其一即可
         // include: path.resolve('src'),
       },
       {
         test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader, // 创建 link 标签并插入
-          'css-loader', // 解析 css 文件, 会将 url() 中的链接替换为 require(xxx)
-          'postcss-loader'
-        ]
+        use: 'Happypack/loader?id=css',
       },
     ],
   }
