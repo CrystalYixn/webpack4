@@ -1,7 +1,16 @@
-import React from "react"
-import { render } from "react-dom"
+// 通过 import 语句, 即使全量导入 webpack 也能在 production 模式下进行摇树优化
+import other from './other'
+// es6 模块会把结果放在 default 上, require 等价与 import *
+// const other = require('./other')
 
-render(<h1>jsx</h1>, window.root)
+console.log(other.sum(1, 2))
+
+// scope hosting 作用域提升, 会简化一些简单的代码
+const a = 1
+const b = 2
+const c = a + b
+// 生产环境会被输出为 console.log("3====")
+console.log(c + '====')
 
 // 手动单独引入某一个语言包, 配置中忽略引入其他包
 // import 'moment/locale/zh-cn'

@@ -72,17 +72,11 @@ module.exports = {
       hash: true,
       chunks: ['home'],
     }),
-    new HtmlWebpackPlugin({
-      template: './src/index.html',
-      filename: 'other.html',
-      hash: true,
-      chunks: ['other'],
-    }),
     new MiniCssExtractPlugin({
       filename: 'main.css'
     }),
     // 每次打包前先清空上一次的文件夹
-    // new ClearWebpackPlugin('./dist'),
+    new ClearWebpackPlugin('./dist'),
     // 拷贝静态文件到打包构建文件夹中
     new CopyWebpackPlugin([
       { from: './doc', to: './' },
