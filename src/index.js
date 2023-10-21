@@ -1,11 +1,10 @@
-import $ from 'jquery'
-import moment from 'moment'
-// 手动单独引入某一个语言包, 配置中忽略引入其他包
-import 'moment/locale/zh-cn'
+import React from "react"
+import { render } from "react-dom"
 
-moment.locale('zh-cn')
-const r = moment().endOf('day').fromNow()
-console.log(r)
+render(<h1>jsx</h1>, window.root)
+
+// 手动单独引入某一个语言包, 配置中忽略引入其他包
+// import 'moment/locale/zh-cn'
 
 // 'development' true 2
 // console.log(` ==================  ================= `, DEV, FLAG, EXPRESSION)

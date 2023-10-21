@@ -18,11 +18,6 @@ module.exports = {
     // publicPath: 'https://360buyaodian.com/',
   },
   devtool: 'source-map',
-  devServer: {
-    port: 3000,
-    progress: true,
-    contentBase: './build',
-  },
   resolve: {
     // 强制只在当前目录下查找依赖包
     modules: [path.resolve('node_modules')],
@@ -48,6 +43,10 @@ module.exports = {
   // },
   // 配置内部服务器
   devServer: {
+    port: 3000,
+    progress: true,
+    // 本地资源路径查找位置
+    contentBase: './dist',
     // 内部的 express 服务器钩子, 可以用来 mock 数据
     // before(app) {
     //   app.get('/user', (req, res) => {
@@ -82,7 +81,7 @@ module.exports = {
       filename: 'main.css'
     }),
     // 每次打包前先清空上一次的文件夹
-    new ClearWebpackPlugin('./dist'),
+    // new ClearWebpackPlugin('./dist'),
     // 拷贝静态文件到打包构建文件夹中
     new CopyWebpackPlugin([
       { from: './doc', to: './' },
@@ -98,6 +97,10 @@ module.exports = {
     new webpack.IgnorePlugin(/\.\/local/),
     // 版权声明, 插入到打包文件的头部
     new webpack.BannerPlugin('make 2023 by honi'),
+    // 当导入时, 尝试查找是否有对应的动态链接库, 没有时再打包此依赖
+    new webpack.DllReferencePlugin({
+      manifest: path.resolve(__dirname, 'dist', 'manifest.json'),
+    }),
     // new webpack.ProvidePlugin({
     //   // 写法 3, 在每个模块中注入 $, 不注入到全局
     //   $: 'jquery'
@@ -149,8 +152,8 @@ module.exports = {
         test: /\.js$/, use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env'],
-            plugins: ['@babel/plugin-proposal-class-properties']
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+            plugins: ['@babel/plugin-proposal-class-properties'],
           },
         },
         exclude: /mode_modules/,
