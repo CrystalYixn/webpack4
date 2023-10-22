@@ -1,14 +1,14 @@
 // 异步串行
-// const { AsyncSeriesHook } = require('tapable')
-import { AsyncSeriesHook } from './other'
+const { AsyncSeriesWaterfallHook } = require('tapable')
+// import { AsyncSeriesWaterfallHook } from './other'
 // 指定调用时的参数
-const sh = new AsyncSeriesHook(['name'])
+const sh = new AsyncSeriesWaterfallHook(['name'])
 // 注册事件
 sh.tapPromise('node', (name) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       console.log('node', name)
-      resolve()
+      resolve('结果')
     }, 1500)
   })
 })
@@ -23,6 +23,21 @@ sh.tapPromise('react', (data) => {
 sh.promise('whh').then(() => {
   console.log('async end')
 })
+// sh.tapAsync('node', (name, cb) => {
+//   setTimeout(() => {
+//     console.log('node', name)
+//     cb(null, '结果')
+//   }, 1500)
+// })
+// sh.tapAsync('react', (data, cb) => {
+//   setTimeout(() => {
+//     console.log('react', data)
+//     cb(null)
+//   }, 1500)
+// })
+// sh.callAsync('whh', () => {
+//   console.log('async end')
+// })
 
 // btn.addEventListener('click', () => {
 //   // jsonp 实现的动态导入

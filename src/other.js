@@ -123,6 +123,41 @@ export class AsyncSeriesHook extends SyncHook {
   }
 }
 
+export class AsyncSeriesWaterfallHook extends SyncHook {
+  constructor(argsStatement) {
+    super()
+  }
+
+  tapAsync(name, cb) {
+    this.cbs.push(cb)
+  }
+
+  tapPromise(name, cb) {
+    this.cbs.push(cb)
+  }
+
+  callAsync(...args) {
+    const callback = args.pop()
+    const maxLength = this.cbs.length
+    let index = 0
+    const next = (error, ...args) => {
+      const cb = this.cbs[index]
+      if (index++ >= maxLength || error) {
+        return callback()
+      }
+      cb(...args, next)
+    }
+    next(null, ...args)
+  }
+
+  // 找到不可分割的部分, cb 无法被分割, 只能改调用 cb 的时机
+  promise(...args) {
+    const [first, ...others] = this.cbs
+    // 需要知道 Promise.then 是可以叠加的, 叠加就可以利用 reduce
+    return others.reduce((p, n) => p.then((...args) => n(...args)), first(...args))
+  }
+}
+
 // 两者导出等价
 // export const a = 6
 // const a = 6
