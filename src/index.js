@@ -1,12 +1,18 @@
-const btn = document.createElement('button')
-btn.textContent = '点我'
-btn.addEventListener('click', () => {
-  // jsonp 实现的动态导入
-  import('./other').then(data => {
-    console.log(data)
+import other from './other'
+console.log(other)
+
+if (module.hot) {
+  module.hot.accept('./other', () => {
+    console.log(require('./other'))
   })
-})
-document.body.appendChild(btn)
+}
+
+// btn.addEventListener('click', () => {
+//   // jsonp 实现的动态导入
+//   import('./other').then(data => {
+//     console.log(123)
+//   })
+// })
 
 // // 通过 import 语句, 即使全量导入 webpack 也能在 production 模式下进行摇树优化
 // import other from './other'

@@ -1,4 +1,4 @@
-export const a = 2
+export default 4
 
 // 两者导出等价
 // export const a = 6

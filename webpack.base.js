@@ -30,7 +30,8 @@ module.exports = {
   },
   entry: {
     home: './src/index.js',
-    other: './src/other.js',
+    // 多入口会导致 hot 热更新失效
+    // other: './src/other.js',
   },
   mode: 'production',
   output: {
@@ -67,8 +68,9 @@ module.exports = {
   // 配置内部服务器
   devServer: {
     port: 3000,
-    progress: true,
-    // 本地资源路径查找位置
+    hot: true,
+    // progress: true,
+    // devServer 查找本地资源的路径
     contentBase: './dist',
     // 内部的 express 服务器钩子, 可以用来 mock 数据
     // before(app) {
@@ -136,6 +138,9 @@ module.exports = {
         'postcss-loader'
       ]
     }),
+    // 打印更新的模块路径
+    new webpack.NamedModulesPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
     // 当导入时, 尝试查找是否有对应的动态链接库, 没有时再打包此依赖
     // new webpack.DllReferencePlugin({
     //   manifest: path.resolve(__dirname, 'dist', 'manifest.json'),
