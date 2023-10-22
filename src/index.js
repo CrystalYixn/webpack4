@@ -1,7 +1,12 @@
-import './a'
-import './b'
-import $ from 'jquery'
-console.log(` ================== index ================= `, $)
+const btn = document.createElement('button')
+btn.textContent = '点我'
+btn.addEventListener('click', () => {
+  // jsonp 实现的动态导入
+  import('./other').then(data => {
+    console.log(data)
+  })
+})
+document.body.appendChild(btn)
 
 // // 通过 import 语句, 即使全量导入 webpack 也能在 production 模式下进行摇树优化
 // import other from './other'

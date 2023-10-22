@@ -1,7 +1,4 @@
-import './a'
-import './b'
-import $ from 'jquery'
-console.log(` ================== other ================= `, $)
+export const a = 2
 
 // 两者导出等价
 // export const a = 6
