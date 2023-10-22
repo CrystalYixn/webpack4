@@ -1,16 +1,15 @@
-// 异步并发钩子
-// const { AsyncParallelHook } = require('tapable')
-import { AsyncParallelHook } from './other'
+// 异步串行
+// const { AsyncSeriesHook } = require('tapable')
+import { AsyncSeriesHook } from './other'
 // 指定调用时的参数
-const sh = new AsyncParallelHook(['name'])
-let index = 0
+const sh = new AsyncSeriesHook(['name'])
 // 注册事件
 sh.tapPromise('node', (name) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       console.log('node', name)
       resolve()
-    }, 1000)
+    }, 1500)
   })
 })
 sh.tapPromise('react', (data) => {
@@ -18,7 +17,7 @@ sh.tapPromise('react', (data) => {
     setTimeout(() => {
       console.log('react', data)
       resolve()
-    }, 500)
+    }, 1500)
   })
 })
 sh.promise('whh').then(() => {
