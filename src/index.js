@@ -1,12 +1,13 @@
-// 同步瀑布钩子, 后者可以获取前者的返回值
-// const { SyncWaterfallHook } = require('tapable')
-import { SyncWaterfallHook } from './other'
+// 
+// const { SyncLoopHook } = require('tapable')
+import { SyncLoopHook } from './other'
 // 指定调用时的参数
-const sh = new SyncWaterfallHook(['name'])
+const sh = new SyncLoopHook(['name'])
+let index = 0
 // 注册事件
 sh.tap('node', (name) => {
   console.log('node', name)
-  return 'node 学的还不错'
+  return index++ < 2 ? '继续学' : undefined
 })
 sh.tap('react', (data) => {
   console.log('react', data)

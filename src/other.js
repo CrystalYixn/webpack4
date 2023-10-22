@@ -37,6 +37,19 @@ export class SyncWaterfallHook extends SyncHook {
   }
 }
 
+export class SyncLoopHook extends SyncHook {
+  constructor(argsStatement) {
+    super()
+  }
+  call(...args) {
+    let index = 0
+    while(index < this.cbs.length) {
+      const cb = this.cbs[index]
+      if (cb(...args) === undefined) index++
+    }
+  }
+}
+
 // 两者导出等价
 // export const a = 6
 // const a = 6
