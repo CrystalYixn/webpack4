@@ -50,6 +50,30 @@ export class SyncLoopHook extends SyncHook {
   }
 }
 
+export class AsyncParallelHook extends SyncHook {
+  constructor(argsStatement) {
+    super()
+  }
+  tapAsync(name, cb) {
+    this.cbs.push(cb)
+  }
+  tapPromise(name, cb) {
+    this.cbs.push(cb)
+  }
+  callAsync(...args) {
+    const callback = args.pop()
+    let count = 0
+    this.cbs.forEach(fn => fn(...args, () => {
+      if (++count === length) {
+        callback()
+      }
+    }))
+  }
+  promise(...args) {
+    return Promise.all(this.cbs.map(cb => cb(...args)))
+  }
+}
+
 // 两者导出等价
 // export const a = 6
 // const a = 6

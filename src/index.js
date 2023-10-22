@@ -1,18 +1,29 @@
-// 
-// const { SyncLoopHook } = require('tapable')
-import { SyncLoopHook } from './other'
+// 异步并发钩子
+// const { AsyncParallelHook } = require('tapable')
+import { AsyncParallelHook } from './other'
 // 指定调用时的参数
-const sh = new SyncLoopHook(['name'])
+const sh = new AsyncParallelHook(['name'])
 let index = 0
 // 注册事件
-sh.tap('node', (name) => {
-  console.log('node', name)
-  return index++ < 2 ? '继续学' : undefined
+sh.tapPromise('node', (name) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log('node', name)
+      resolve()
+    }, 1000)
+  })
 })
-sh.tap('react', (data) => {
-  console.log('react', data)
+sh.tapPromise('react', (data) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log('react', data)
+      resolve()
+    }, 500)
+  })
 })
-sh.call('whh')
+sh.promise('whh').then(() => {
+  console.log('async end')
+})
 
 // btn.addEventListener('click', () => {
 //   // jsonp 实现的动态导入
