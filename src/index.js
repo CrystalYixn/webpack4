@@ -1,16 +1,15 @@
-// 同步熔断型保险钩子
-// const { SyncBailHook } = require('tapable')
-import { SyncBailHook } from './other'
+// 同步瀑布钩子, 后者可以获取前者的返回值
+// const { SyncWaterfallHook } = require('tapable')
+import { SyncWaterfallHook } from './other'
 // 指定调用时的参数
-const sh = new SyncBailHook(['name'])
+const sh = new SyncWaterfallHook(['name'])
 // 注册事件
 sh.tap('node', (name) => {
   console.log('node', name)
-  // 如果返回值不为 undefined, 则停止执行
-  // return '停止执行'
+  return 'node 学的还不错'
 })
-sh.tap('react', (name) => {
-  console.log('react', name)
+sh.tap('react', (data) => {
+  console.log('react', data)
 })
 sh.call('whh')
 

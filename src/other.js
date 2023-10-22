@@ -24,6 +24,19 @@ export class SyncBailHook extends SyncHook {
   }
 }
 
+export class SyncWaterfallHook extends SyncHook {
+  constructor(argsStatement) {
+    super()
+  }
+  call(...args) {
+    const [first, ...others] = this.cbs
+    let res = first(...args)
+    others.reduce((pre, fn) => {
+      return fn(pre)
+    }, res)
+  }
+}
+
 // 两者导出等价
 // export const a = 6
 // const a = 6
