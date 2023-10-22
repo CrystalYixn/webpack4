@@ -6,9 +6,31 @@ const ClearWebpackPlugin = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const Happypack = require('happypack')
 module.exports = {
+  optimization: {
+    // 单页应用不需要抽离公共部分
+    splitChunks: {
+      cacheGroups: {
+        common: {
+          chunks: 'initial',
+          minSize: 0,
+          // 当前被引用多少次才抽离
+          minChunks: 2,
+        },
+        // 配置第三方包的抽离
+        vendor: {
+          // 先单独抽离第三方模块, 否则第三方包和自己的公用模块会被抽离到一个文件中
+          priority: 1,
+          test: /node_modules/,
+          chunks: 'initial',
+          minSize: 0,
+          minChunks: 2,
+        },
+      },
+    }
+  },
   entry: {
     home: './src/index.js',
-    // other: './src/other.js',
+    other: './src/other.js',
   },
   mode: 'production',
   output: {
@@ -18,7 +40,7 @@ module.exports = {
     // 在所有路径前追加公共路径, 一般为 CDN
     // publicPath: 'https://360buyaodian.com/',
   },
-  devtool: 'source-map',
+  // devtool: 'source-map',
   resolve: {
     // 强制只在当前目录下查找依赖包
     modules: [path.resolve('node_modules')],
@@ -70,7 +92,9 @@ module.exports = {
       template: './src/index.html',
       filename: 'index.html',
       hash: true,
-      chunks: ['home'],
+      // 如果 home 模块依赖其他 deferred 模块则不会立即执行
+      // 等到其他依赖模块加载完成后才会执行
+      // chunks: ['home'],
     }),
     new MiniCssExtractPlugin({
       filename: 'main.css'
@@ -78,9 +102,9 @@ module.exports = {
     // 每次打包前先清空上一次的文件夹
     new ClearWebpackPlugin('./dist'),
     // 拷贝静态文件到打包构建文件夹中
-    new CopyWebpackPlugin([
-      { from: './doc', to: './' },
-    ]),
+    // new CopyWebpackPlugin([
+    //   { from: './doc', to: './' },
+    // ]),
     // 替换代码
     new webpack.DefinePlugin({
       // 会将匹配到的 key 直接替换字符串
@@ -121,9 +145,9 @@ module.exports = {
     //   $: 'jquery'
     // }),
   ],
-  externals: {
-    jquery: "$" // 防止 import 此模块时进行打包
-  },
+  // externals: {
+  //   jquery: "$" // 防止 import 此模块时进行打包
+  // },
   module: {
     // 不去解析 jquery 中的依赖关系
     noParse: /jquery/,
@@ -164,14 +188,26 @@ module.exports = {
       //   use: 'expose-loader?$',
       // },
       {
-        test: /\.js$/, use: 'Happypack/loader?id=js',
-        exclude: /mode_modules/,
+        test: /\.js$/,
+        use: 'Happypack/loader?id=js',
+        include: path.resolve('src'),
+        exclude: /node_modules/,
+        // use: {
+        //   loader: 'babel-loader',
+        //   options: {
+        //     presets: [
+        //       '@babel/preset-env',
+        //       '@babel/preset-react'
+        //     ]
+        //   }
+        // },
         // 与 exclude 选其一即可
         // include: path.resolve('src'),
       },
       {
         test: /\.css$/,
         use: 'Happypack/loader?id=css',
+        // use: ['style-loader', 'css-loader'],
       },
     ],
   }
