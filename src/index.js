@@ -1,10 +1,16 @@
-// const { SyncHook } = require('tapable')
-import { SyncHook } from './other'
+// 同步熔断型保险钩子
+// const { SyncBailHook } = require('tapable')
+import { SyncBailHook } from './other'
 // 指定调用时的参数
-const sh = new SyncHook(['name'])
+const sh = new SyncBailHook(['name'])
 // 注册事件
 sh.tap('node', (name) => {
-  console.log(name)
+  console.log('node', name)
+  // 如果返回值不为 undefined, 则停止执行
+  // return '停止执行'
+})
+sh.tap('react', (name) => {
+  console.log('react', name)
 })
 sh.call('whh')
 
