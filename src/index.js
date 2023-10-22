@@ -1,11 +1,12 @@
-import other from './other'
-console.log(other)
-
-if (module.hot) {
-  module.hot.accept('./other', () => {
-    console.log(require('./other'))
-  })
-}
+// const { SyncHook } = require('tapable')
+import { SyncHook } from './other'
+// 指定调用时的参数
+const sh = new SyncHook(['name'])
+// 注册事件
+sh.tap('node', (name) => {
+  console.log(name)
+})
+sh.call('whh')
 
 // btn.addEventListener('click', () => {
 //   // jsonp 实现的动态导入
