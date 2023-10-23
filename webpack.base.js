@@ -204,7 +204,7 @@ module.exports = {
       {
         test: /\.js$/,
         // use: 'Happypack/loader?id=js',
-        use: 'loader1',
+        use: ['loader3', 'loader2', 'loader1'],
         include: path.resolve('src'),
         exclude: /node_modules/,
         // use: {
