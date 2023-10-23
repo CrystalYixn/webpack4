@@ -6,3 +6,11 @@ function loader(source) {
   `
 }
 module.exports = loader
+
+// 使用 JSON.stringify, style.innerHTML = ${JSON.stringify(source)}
+// style.innerHTML = "body {\n  background: red;\n }
+
+// 直接输出, style.innerHTML = ${source}, 加上双引号也不行, 双引号不支持换行
+// style.innerHTML = body {
+//  background: red;
+// }

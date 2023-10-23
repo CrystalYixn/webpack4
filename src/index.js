@@ -11,7 +11,4 @@
 // 一般用于
 // loader3 -> loader2(有返回值) -> loader3
 
-import p from './logo.png'
-const img = document.createElement('img')
-img.src = p
-document.body.append(img)
+require('./index.less')

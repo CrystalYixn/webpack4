@@ -221,8 +221,12 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: 'Happypack/loader?id=css',
-        // use: ['style-loader', 'css-loader'],
+        // use: 'Happypack/loader?id=css',
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.less$/,
+        use: ['style-loader','less-loader' , 'css-loader'],
       },
     ],
   }
