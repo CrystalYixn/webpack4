@@ -44,7 +44,7 @@ module.exports = {
   // 解析 loader 的配置
   resolveLoader: {
     // 配置查找路径
-    modules: ['node_modules', path.resolve(__dirname, 'loader')]
+    modules: [path.resolve(__dirname, 'loader'), 'node_modules']
     // alias: {
     //   loader1: path.resolve(__dirname, 'loader', 'loader1.js')
     // }
@@ -204,18 +204,16 @@ module.exports = {
       {
         test: /\.js$/,
         // use: 'Happypack/loader?id=js',
-        use: ['loader3', 'loader2', 'loader1'],
         include: path.resolve('src'),
         exclude: /node_modules/,
-        // use: {
-        //   loader: 'babel-loader',
-        //   options: {
-        //     presets: [
-        //       '@babel/preset-env',
-        //       '@babel/preset-react'
-        //     ]
-        //   }
-        // },
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              '@babel/preset-env',
+            ]
+          }
+        },
         // 与 exclude 选其一即可
         // include: path.resolve('src'),
       },
