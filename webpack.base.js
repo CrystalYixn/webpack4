@@ -41,7 +41,16 @@ module.exports = {
     // 在所有路径前追加公共路径, 一般为 CDN
     // publicPath: 'https://360buyaodian.com/',
   },
+  // 解析 loader 的配置
+  resolveLoader: {
+    // 配置查找路径
+    modules: ['node_modules', path.resolve(__dirname, 'loader')]
+    // alias: {
+    //   loader1: path.resolve(__dirname, 'loader', 'loader1.js')
+    // }
+  },
   // devtool: 'source-map',
+  // 解析模块的配置
   resolve: {
     // 强制只在当前目录下查找依赖包
     modules: [path.resolve('node_modules')],
@@ -118,18 +127,18 @@ module.exports = {
     new webpack.IgnorePlugin(/\.\/local/),
     // 版权声明, 插入到打包文件的头部
     new webpack.BannerPlugin('make 2023 by honi'),
-    new Happypack({
-      id: 'js',
-      use: [
-        {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
-            plugins: ['@babel/plugin-proposal-class-properties', '@babel/plugin-syntax-dynamic-import'],
-          },
-        },
-      ]
-    }),
+    // new Happypack({
+    //   id: 'js',
+    //   use: [
+    //     {
+    //       loader: 'babel-loader',
+    //       options: {
+    //         presets: ['@babel/preset-env', '@babel/preset-react'],
+    //         plugins: ['@babel/plugin-proposal-class-properties', '@babel/plugin-syntax-dynamic-import'],
+    //       },
+    //     },
+    //   ]
+    // }),
     new Happypack({
       id: 'css',
       use: [
@@ -194,7 +203,8 @@ module.exports = {
       // },
       {
         test: /\.js$/,
-        use: 'Happypack/loader?id=js',
+        // use: 'Happypack/loader?id=js',
+        use: 'loader1',
         include: path.resolve('src'),
         exclude: /node_modules/,
         // use: {
