@@ -74,7 +74,6 @@ module.exports = {
   //   aggregateTimeout: 500,
   //   ignored: /node_modules/
   // },
-  watch: true,
   // 配置内部服务器
   devServer: {
     port: 3000,
@@ -170,6 +169,9 @@ module.exports = {
       {
         test: /\.(png|jpg|gif)$/,
         use: {
+          // 负责发射文件, 生成处理文件路径
+          // loader: 'file-loader',
+          // 对文件进行大小、生成等限制, 最后还是会交给 file-loader 处理
           loader: 'url-loader',
           options: {
             // 小于 200kb 直接被打包为 base64
