@@ -109,7 +109,8 @@
       './src\index.js':
         function (module, exports, __webpack_require__) {
           eval(`const str = __webpack_require__("./src\\a.js");
-console.log(str);`)
+console.log(str);
+__webpack_require__("./src\\index.less");`)
         },
     
       './src\a.js':
@@ -121,6 +122,13 @@ module.exports = 'a' + b;`)
       './src\b.js':
         function (module, exports, __webpack_require__) {
           eval(`module.exports = 'b';`)
+        },
+    
+      './src\index.less':
+        function (module, exports, __webpack_require__) {
+          eval(`const style = document.createElement('style');
+style.innerHTML = "body {\\n  background-color: red;\\n}\\n";
+document.head.appendChild(style);`)
         },
     
   }
