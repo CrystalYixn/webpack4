@@ -1,5 +1,13 @@
 const path = require('path')
 
+class MyPlugin {
+  apply(compiler) {
+    compiler.hooks.emit.tap('emit', () => {
+      console.log('发射文件')
+    })
+  }
+}
+
 module.exports = {
   entry: './src/index.js',
   mode: 'development',
@@ -16,6 +24,9 @@ module.exports = {
           path.resolve(__dirname, 'loader', 'less-loader'),
         ]
       }
-    ]
+    ],
+    plugins: [
+      new MyPlugin()
+    ],
   }
 }
