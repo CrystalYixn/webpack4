@@ -74,6 +74,7 @@ module.exports = {
   //   aggregateTimeout: 500,
   //   ignored: /node_modules/
   // },
+  watch: true,
   // 配置内部服务器
   devServer: {
     port: 3000,
@@ -207,11 +208,10 @@ module.exports = {
         include: path.resolve('src'),
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
+          loader: 'banner-loader',
           options: {
-            presets: [
-              '@babel/preset-env',
-            ]
+            text: 'make by honi',
+            filename: path.resolve(__dirname, 'banner.js'),
           }
         },
         // 与 exclude 选其一即可
