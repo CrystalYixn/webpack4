@@ -6,6 +6,7 @@ const ClearWebpackPlugin = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const Happypack = require('happypack')
 const FileListPlugin = require('./plugins/FileListPlugin.js')
+const InlineSourcePlugin = require('./plugins/InlineSourcePlugin.js')
 module.exports = {
   optimization: {
     // 单页应用不需要抽离公共部分
@@ -102,7 +103,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html',
-      hash: true,
+      // hash: true,
       // 如果 home 模块依赖其他 deferred 模块则不会立即执行
       // 等到其他依赖模块加载完成后才会执行
       // chunks: ['home'],
@@ -152,6 +153,9 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new FileListPlugin({
       filename: 'list.md',
+    }),
+    new InlineSourcePlugin({
+      match: /\.(js|css)/,
     }),
     // 当导入时, 尝试查找是否有对应的动态链接库, 没有时再打包此依赖
     // new webpack.DllReferencePlugin({
