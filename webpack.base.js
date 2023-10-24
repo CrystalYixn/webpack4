@@ -33,7 +33,6 @@ module.exports = {
     // 多入口会导致 hot 热更新失效
     // other: './src/other.js',
   },
-  mode: 'production',
   output: {
     filename: '[name].[hash:8].js',
     // path.resolve 将一个路径转换为绝对路径, __dirname 当前执行文件的绝对路径
@@ -226,7 +225,7 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        use: ['style-loader','less-loader' , 'css-loader'],
+        use: ['style-loader','css-loader' , 'less-loader'],
       },
     ],
   }
