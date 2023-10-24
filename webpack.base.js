@@ -5,6 +5,7 @@ const webpack = require('webpack')
 const ClearWebpackPlugin = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const Happypack = require('happypack')
+const FileListPlugin = require('./plugins/FileListPlugin.js')
 module.exports = {
   optimization: {
     // 单页应用不需要抽离公共部分
@@ -149,6 +150,9 @@ module.exports = {
     // 打印更新的模块路径
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
+    new FileListPlugin({
+      filename: 'list.md',
+    }),
     // 当导入时, 尝试查找是否有对应的动态链接库, 没有时再打包此依赖
     // new webpack.DllReferencePlugin({
     //   manifest: path.resolve(__dirname, 'dist', 'manifest.json'),
